@@ -66,5 +66,5 @@ def main():
     if st.button("Find Primitive Roots"):
         print_primitive_roots(int(p), int(primitive_number))
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
