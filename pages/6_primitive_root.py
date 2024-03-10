@@ -7,29 +7,17 @@ def is_prime(num):
         if num % i == 0:
             return False
     return True
-    
+
 def compute_modulus(base, exponent, mod):
     result = 1
     for _ in range(exponent):
         result = (result * base) % mod
     return result
 
-def get_primitive_input(prompt):
-    while True:
-        user_input = input(prompt)
-        try:
-            num = int(user_input)
-            if num > 1:
-                return num
-            else:
-                st.write("Please enter a number greater than 1.")
-        except ValueError:
-            st.write("Please enter a valid integer.")
-
 def get_primitive_roots(p):
     primitive_roots = []
     for g in range(1, p):
-        is_primitive_root = True 
+        is_primitive_root = True
         powers = set()
         for j in range(1, p):
             res = compute_modulus(g, j, p)
@@ -39,10 +27,10 @@ def get_primitive_roots(p):
         if len(powers) == p - 1:
             primitive_roots.append(g)
     return primitive_roots
-    
+
 def print_primitive_roots(p, primitive_number):
     if not is_prime(p):
-        print(f"{p} is not a prime number!!")
+        st.write(f"{p} is not a prime number!!")
         return
     
     print_results = []
@@ -57,8 +45,8 @@ def print_primitive_roots(p, primitive_number):
             output[-1] += f" ==> {g} is primitive root of {p},"
         else:
             output[-1] += ","
-        print_results.append(", ".join(output))
-        
+        print_results.append(", ".join(output).rstrip())
+    
     st.write("\n".join(print_results))
     primitive_roots = get_primitive_roots(p)
     if primitive_roots:
@@ -66,11 +54,17 @@ def print_primitive_roots(p, primitive_number):
             st.write(f"{primitive_number} is primitive root: True {primitive_roots}")
         else:
             st.write(f"{primitive_number} is NOT primitive root of {p} - List of Primitive roots: {primitive_roots}")
-    else:
+    else:    
         st.write(f"{primitive_number} is NOT primitive root of {p} - List of Primitive roots: {primitive_roots}")
 
-p = get_primitive_input("")
-primitive_number = get_primitive_input("")
-st.write_primitive_roots(p, primitive_number)
-    
-    
+def main():
+    st.title("Primitive Roots")
+
+    p = st.number_input("Enter a prime number (p):", min_value=2, step=1)
+    primitive_number = st.number_input("Enter a primitive number:", min_value=1, step=1)
+
+    if st.button("Find Primitive Roots"):
+        print_primitive_roots(int(p), int(primitive_number))
+
+if _name_ == "_main_":
+    main()
